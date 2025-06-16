@@ -33,6 +33,7 @@ class AgenciesController < ApplicationController
 
     def destroy 
         @agency.destroy
+        redirect_to agencies_path
     end
 
     private

@@ -8,5 +8,5 @@
     Location: <%=agency.location%>
   </li>
   <%= link_to "Modifier", edit_agency_path(agency)%>
-  <%= link_to "Supprimer", agency_path(agency) , method: :delete%>
+  <%= button_to "Delete", agency_path(agency), method: :delete%>
 <% end %>
