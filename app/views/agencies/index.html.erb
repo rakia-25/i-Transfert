@@ -1,0 +1,12 @@
+<h1>Liste des agences</h1>
+<%= link_to "Nouvelle agence", new_agency_path %>
+<% @agencies.each do |agency| %>
+  <ul>
+  </ul>
+  <li>
+    <strong><%= link_to agency.name, agency_path(agency) %></strong>
+    Location: <%=agency.location%>
+  </li>
+  <%= link_to "Modifier", edit_agency_path(agency)%>
+  <%= button_to "Delete", agency_path(agency), method: :delete%>
+<% end %>

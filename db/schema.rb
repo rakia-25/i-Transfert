@@ -10,6 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+ActiveRecord::Schema[7.1].define(version: 2025_06_16_092549) do
+  create_table "agencies", force: :cascade do |t|
+    t.string "name"
+    t.string "location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
 ActiveRecord::Schema[7.1].define(version: 2025_06_16_085356) do
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
