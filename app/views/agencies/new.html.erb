@@ -1,0 +1,12 @@
+<h1>Nouvelle agence</h1>
+<%= form_with model: @agency do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+    <%= form.label :location %>
+    <%= form.text_field :location %>
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
