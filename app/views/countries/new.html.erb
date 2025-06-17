@@ -1,0 +1,9 @@
+<h1>Ajouter un pays</h1>
+
+<%= form_with model: @country do |f| %>
+  <div>
+    <%= f.label :name, "Nom du pays" %>
+    <%= f.text_field :name %>
+  </div>
+  <%= f.submit "Créer le pays" %>
+<% end %>

@@ -9,4 +9,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "home#index"
+  resources :countries do
+    resources :cities, only: [:new, :create]
+  end
 end
