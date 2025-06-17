@@ -1,0 +1,14 @@
+<h1>Ajouter une ville à <%= @country.name %></h1>
+
+<%= form_with(model: [@country, @city]) do |f| %>
+  <div>
+    <%= f.label :name, "Nom de la ville" %><br>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.submit "Créer la ville" %>
+  </div>
+<% end %>
+
+<%= link_to "Retour au pays", country_path(@country) %>
