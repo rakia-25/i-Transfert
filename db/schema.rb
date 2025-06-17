@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_16_085356) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_17_090521) do
+  create_table "transactions", force: :cascade do |t|
+    t.string "nom_expediteur"
+    t.string "numero_expediteur"
+    t.string "ville"
+    t.decimal "montant"
+    t.string "nom_destinataire"
+    t.string "numero_destinataire"
+    t.string "transaction_type"
+    t.decimal "montant_retrait"
+    t.string "reference"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false

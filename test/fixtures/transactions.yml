@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nom_expediteur: MyString
+  numero_expediteur: MyString
+  ville: MyString
+  montant: 9.99
+  nom_destinataire: MyString
+  numero_destinataire: MyString
+  transaction_type: MyString
+  montant_retrait: 9.99
+  reference: MyString
+
+two:
+  nom_expediteur: MyString
+  numero_expediteur: MyString
+  ville: MyString
+  montant: 9.99
+  nom_destinataire: MyString
+  numero_destinataire: MyString
+  transaction_type: MyString
+  montant_retrait: 9.99
+  reference: MyString

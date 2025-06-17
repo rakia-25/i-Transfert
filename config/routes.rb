@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'transactions/index'
+  get 'transactions/new'
+  get 'transactions/create'
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -7,5 +10,11 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  root "home#index"
+  root "transactions#index"
+   resources :transactions do
+    collection do
+      get :envois, to: 'transactions#index', defaults: { type: 'envoi' }
+      get :retraits, to: 'transactions#index', defaults: { type: 'retrait' }
+    end
+  end
 end
