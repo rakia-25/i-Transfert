@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AgencyControllerTest < ActionDispatch::IntegrationTest
+class GuichetTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

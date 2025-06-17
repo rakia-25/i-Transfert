@@ -18,6 +18,8 @@ class AgenciesController < ApplicationController
         end
     end
     def show 
+        @guichet = Guichet.new
+        @users=User.agent
     end
 
     def edit
