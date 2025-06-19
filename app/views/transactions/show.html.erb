@@ -1,0 +1,235 @@
+<div class="container py-4">
+  <div class="row">
+    <div class="col-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><%= link_to "Accueil", root_path %></li>
+          <li class="breadcrumb-item active">Transaction #<%= @transaction.reference %></li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="h2 mb-1">Transaction #<%= @transaction.reference %></h1>
+          <p class="text-muted mb-0">
+            <span class="badge <%= @transaction.status_badge_class %> me-2">
+              <%= @transaction.transaction_type.capitalize %>
+            </span>
+            Créée le <%= @transaction.created_at.strftime("%d/%m/%Y à %H:%M") %>
+          </p>
+        </div>
+        <div>
+          <%= link_to "Modifier", edit_transaction_path(@transaction), 
+                      class: "btn btn-outline-primary" %>
+          <%= link_to "Supprimer", @transaction, method: :delete,
+                      data: { confirm: "Êtes-vous sûr de vouloir supprimer cette transaction ?" },
+                      class: "btn btn-outline-danger" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <!-- Détails de la transaction -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">Détails de la Transaction</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <% if @transaction.envoi? %>
+              <!-- Pour les envois -->
+              <div class="col-md-6">
+                <h6 class="text-primary border-bottom pb-2 mb-3">Expéditeur</h6>
+                <div class="mb-3">
+                  <small class="text-muted">Nom</small>
+                  <div class="fw-bold"><%= @transaction.sender_name %></div>
+                </div>
+                <div class="mb-3">
+                  <small class="text-muted">Numéro</small>
+                  <div class="fw-bold"><%= @transaction.sender_number %></div>
+                </div>
+                <div class="mb-3">
+                  <small class="text-muted">Montant Envoyé</small>
+                  <div class="h5 text-primary"><%= number_to_currency(@transaction.amount, unit: '', precision: 0) %> FCFA</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <h6 class="text-success border-bottom pb-2 mb-3">Destinataire</h6>
+                <div class="mb-3">
+                  <small class="text-muted">Nom</small>
+                  <div class="fw-bold"><%= @transaction.recipient_name %></div>
+                </div>
+                <div class="mb-3">
+                  <small class="text-muted">Numéro</small>
+                  <div class="fw-bold"><%= @transaction.recipient_number %></div>
+                </div>
+                <div class="mb-3">
+                  <small class="text-muted">Montant à Recevoir</small>
+                  <div class="h5 text-success"><%= number_to_currency(@transaction.amount_recipient, unit: '', precision: 0) %> FCFA</div>
+                </div>
+              </div>
+            <% else %>
+              <!-- Pour les retraits -->
+              <div class="col-md-6">
+                <h6 class="text-warning border-bottom pb-2 mb-3">Retrait</h6>
+                <div class="mb-3">
+                  <small class="text-muted">Bénéficiaire</small>
+                  <div class="fw-bold"><%= @transaction.recipient_name %></div>
+                </div>
+                <div class="mb-3">
+                  <small class="text-muted">Numéro</small>
+                  <div class="fw-bold"><%= @transaction.recipient_number %></div>
+                </div>
+                <div class="mb-3">
+                  <small class="text-muted">Montant Retiré</small>
+                  <div class="h5 text-warning"><%= number_to_currency(@transaction.amount_recipient, unit: '', precision: 0) %> FCFA</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <h6 class="text-info border-bottom pb-2 mb-3">Informations</h6>
+                <div class="mb-3">
+                  <small class="text-muted">Type de Transaction</small>
+                  <div class="fw-bold">Retrait d'Espèces</div>
+                </div>
+                <div class="mb-3">
+                  <small class="text-muted">Destination</small>
+                  <div class="fw-bold"><%= @transaction.destination %></div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Informations additionnelles -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Informations Complémentaires</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <small class="text-muted">Référence</small>
+                <div class="fw-bold">
+                  <code><%= @transaction.reference %></code>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="mb-3">
+                <small class="text-muted">Destination</small>
+                <div class="fw-bold"><%= @transaction.destination %></div>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="mb-3">
+                <small class="text-muted">Type</small>
+                <div>
+                  <span class="badge <%= @transaction.status_badge_class %>">
+                    <%= @transaction.transaction_type.capitalize %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <small class="text-muted">Date de Création</small>
+                <div class="fw-bold"><%= @transaction.created_at.strftime("%d/%m/%Y à %H:%M:%S") %></div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="mb-3">
+                <small class="text-muted">Dernière Modification</small>
+                <div class="fw-bold"><%= @transaction.updated_at.strftime("%d/%m/%Y à %H:%M:%S") %></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <!-- Actions rapides -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h6 class="mb-0">Actions</h6>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            <%= link_to "Modifier cette Transaction", edit_transaction_path(@transaction), 
+                        class: "btn btn-primary" %>
+            
+            <% if @transaction.envoi? %>
+              <%= link_to "Vérifier le Destinataire", 
+                          check_number_transactions_path(phone_number: @transaction.recipient_number), 
+                          class: "btn btn-info" %>
+              
+              <%= link_to "Vérifier l'Expéditeur", 
+                          check_number_transactions_path(phone_number: @transaction.sender_number), 
+                          class: "btn btn-outline-info" %>
+            <% else %>
+              <%= link_to "Vérifier le Numéro", 
+                          check_number_transactions_path(phone_number: @transaction.recipient_number), 
+                          class: "btn btn-info" %>
+            <% end %>
+            
+            <hr>
+            
+            <%= link_to "Nouvelle Transaction", new_transaction_path, 
+                        class: "btn btn-success" %>
+            <%= link_to "Toutes les Transactions", root_path, 
+                        class: "btn btn-outline-secondary" %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Résumé financier -->
+      <div class="card">
+        <div class="card-header">
+          <h6 class="mb-0">Résumé Financier</h6>
+        </div>
+        <div class="card-body">
+          <% if @transaction.envoi? %>
+            <div class="d-flex justify-content-between mb-2">
+              <span>Montant envoyé:</span>
+              <strong class="text-primary"><%= number_to_currency(@transaction.amount, unit: '', precision: 0) %> FCFA</strong>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span>Montant à recevoir:</span>
+              <strong class="text-success"><%= number_to_currency(@transaction.amount_recipient, unit: '', precision: 0) %> FCFA</strong>
+            </div>
+            <% if @transaction.amount != @transaction.amount_recipient %>
+              <hr>
+              <div class="d-flex justify-content-between">
+                <span>Frais de service:</span>
+                <strong class="text-warning">
+                  <%= number_to_currency(@transaction.amount - @transaction.amount_recipient, unit: '', precision: 0) %> FCFA
+                </strong>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="d-flex justify-content-between mb-2">
+              <span>Montant retiré:</span>
+              <strong class="text-warning"><%= number_to_currency(@transaction.amount_recipient, unit: '', precision: 0) %> FCFA</strong>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

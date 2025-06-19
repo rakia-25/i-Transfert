@@ -4,10 +4,10 @@ class Transaction < ApplicationRecord
   
   validates :transaction_type, inclusion: { in: TRANSACTION_TYPES }
 
-  validate :destinataire_existe_pour_retrait, if: -> { transaction_type == 'retrait' }
+  validate :destinataire_exist, if: -> { transaction_type == 'retrait' }
 
-  validates :nom_expediteur, :numero_expediteur, :ville, :montant, presence: true, if: :envoi?
-  validates :numero_destinataire, :montant_retrait, presence: true, if: :retrait?
+  validates :sender_name, :sender_number, :destination, :amount, presence: true, if: :envoi?
+  validates :recipient_number, presence: true, if: :retrait?
 
   scope :envois, -> {where(transaction_type: 'envoi')}
   scope :retraits, -> {where(transaction_type: 'retrait')}
@@ -27,9 +27,9 @@ class Transaction < ApplicationRecord
     self.reference = "I#{SecureRandom.random_number(1_000_000..9_999_999)}"
   end
 
-  def destinataire_existe_pour_retrait
-    unless Transaction.exists?(numero_destinataire: numero_destinataire, transaction_type: 'envoi')
-      errors.add(:numero_destinataire, "n'existe pas pour un retrait")
+  def destinataire_exist
+    unless Transaction.exists?(recipient_number: recipient_number, transaction_type: 'envoi')
+      errors.add(:recipient_number, "n'existe pas pour un retrait")
     end
   end
 end

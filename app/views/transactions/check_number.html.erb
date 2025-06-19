@@ -1,0 +1,234 @@
+<!-- app/views/transactions/check_number.html.erb -->
+<div class="container py-4">
+  <div class="row">
+    <div class="col-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><%= link_to "Accueil", root_path %></li>
+          <li class="breadcrumb-item active">Vérifier Numéro</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-12">
+      <h1 class="h2">Vérifier les Transactions d'un Numéro</h1>
+      <p class="text-muted">Saisissez un numéro de téléphone pour voir toutes les transactions associées</p>
+    </div>
+  </div>
+
+  <!-- Formulaire de recherche -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <%= form_with url: check_number_transactions_path, method: :get, local: true, 
+                        class: "row g-3 align-items-end" do |f| %>
+            <div class="col-md-8">
+              <%= f.label :phone_number, "Numéro de téléphone", class: "form-label" %>
+              <%= f.text_field :phone_number, value: @phone_number, 
+                               class: "form-control", 
+                               placeholder: "Ex: +227 12 34 56 78",
+                               required: true %>
+            </div>
+            <div class="col-md-4">
+              <%= f.submit "Vérifier", class: "btn btn-primary w-100" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if @phone_number.present? %>
+    <!-- Résultats -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <h3>Résultats pour : <code><%= @phone_number %></code></h3>
+      </div>
+    </div>
+
+    <!-- Statistiques -->
+    <div class="row mb-4">
+      <div class="col-md-3">
+        <div class="card text-center border-primary">
+          <div class="card-body">
+            <h5 class="text-primary">Envoyés</h5>
+            <h4><%= number_to_currency(@total_sent, unit: '', precision: 0) %> FCFA</h4>
+            <small class="text-muted"><%= @sent_transactions.count %> transactions</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-center border-success">
+          <div class="card-body">
+            <h5 class="text-success">Reçus</h5>
+            <h4><%= number_to_currency(@total_received, unit: '', precision: 0) %> FCFA</h4>
+            <small class="text-muted"><%= @received_transactions.count %> transactions</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-center border-warning">
+          <div class="card-body">
+            <h5 class="text-warning">Retirés</h5>
+            <h4><%= number_to_currency(@total_withdrawn, unit: '', precision: 0) %> FCFA</h4>
+            <small class="text-muted"><%= @withdrawal_transactions.count %> retraits</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-center <%= @balance > 0 ? 'border-info' : 'border-secondary' %>">
+          <div class="card-body">
+            <h5 class="<%= @balance > 0 ? 'text-info' : 'text-secondary' %>">Solde</h5>
+            <h4><%= number_to_currency(@balance, unit: '', precision: 0) %> FCFA</h4>
+            <% if @balance > 0 %>
+              <%= link_to "Retirer", withdraw_transactions_path(phone_number: @phone_number), 
+                          class: "btn btn-sm btn-warning mt-2" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Onglets pour les différents types de transactions -->
+    <div class="card">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#received" role="tab">
+              Argent Reçu <span class="badge bg-success ms-1"><%= @received_transactions.count %></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#sent" role="tab">
+              Argent Envoyé <span class="badge bg-primary ms-1"><%= @sent_transactions.count %></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#withdrawn" role="tab">
+              Retraits <span class="badge bg-warning ms-1"><%= @withdrawal_transactions.count %></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        <div class="tab-content">
+          <!-- Argent reçu -->
+          <div class="tab-pane fade show active" id="received" role="tabpanel">
+            <% if @received_transactions.any? %>
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Référence</th>
+                      <th>Expéditeur</th>
+                      <th>Montant</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @received_transactions.each do |transaction| %>
+                      <tr>
+                        <td><%= transaction.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+                        <td><code><%= transaction.reference %></code></td>
+                        <td>
+                          <strong><%= transaction.sender_name %></strong><br>
+                          <small class="text-muted"><%= transaction.sender_number %></small>
+                        </td>
+                        <td><strong class="text-success"><%= transaction.formatted_amount %></strong></td>
+                        <td>
+                          <%= link_to "Voir", transaction, class: "btn btn-sm btn-outline-primary" %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            <% else %>
+              <div class="text-center py-4">
+                <p class="text-muted">Aucune transaction reçue</p>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Argent envoyé -->
+          <div class="tab-pane fade" id="sent" role="tabpanel">
+            <% if @sent_transactions.any? %>
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Référence</th>
+                      <th>Destinataire</th>
+                      <th>Montant</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @sent_transactions.each do |transaction| %>
+                      <tr>
+                        <td><%= transaction.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+                        <td><code><%= transaction.reference %></code></td>
+                        <td>
+                          <strong><%= transaction.recipient_name %></strong><br>
+                          <small class="text-muted"><%= transaction.recipient_number %></small>
+                        </td>
+                        <td><strong class="text-primary"><%= transaction.formatted_amount %></strong></td>
+                        <td>
+                          <%= link_to "Voir", transaction, class: "btn btn-sm btn-outline-primary" %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            <% else %>
+              <div class="text-center py-4">
+                <p class="text-muted">Aucune transaction envoyée</p>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Retraits -->
+          <div class="tab-pane fade" id="withdrawn" role="tabpanel">
+            <% if @withdrawal_transactions.any? %>
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Référence</th>
+                      <th>Montant</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @withdrawal_transactions.each do |transaction| %>
+                      <tr>
+                        <td><%= transaction.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+                        <td><code><%= transaction.reference %></code></td>
+                        <td><strong class="text-warning"><%= transaction.formatted_amount %></strong></td>
+                        <td>
+                          <%= link_to "Voir", transaction, class: "btn btn-sm btn-outline-primary" %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            <% else %>
+              <div class="text-center py-4">
+                <p class="text-muted">Aucun retrait effectué</p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+

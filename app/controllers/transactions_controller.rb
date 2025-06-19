@@ -25,18 +25,19 @@ class TransactionsController < ApplicationController
     redirect_to transactions_url, notice: 'Transaction supprimée avec succès.'
   end
 
-  private
+  private 
+  
 
   def transaction_params
     params.require(:transaction).permit(
-      :nom_expediteur,
-      :numero_expediteur,
-      :ville,
-      :montant,
-      :nom_destinataire,
-      :numero_destinataire,
+      :sender_name,
+      :sender_number,
+      :destination,
+      :amount,
+      :recipient_name,
+      :recipient_number,
       :transaction_type,
-      :montant_retrait
+      :amount_recipient
     )
   end
 end
