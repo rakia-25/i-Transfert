@@ -1,0 +1,2 @@
+module IdentityTypeHelper
+end

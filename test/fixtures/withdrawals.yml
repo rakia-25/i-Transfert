@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  recipient_number: MyString
+  send_code: MyString
+  identity_reference: MyString
+  identity_type: one
+  user: one
+
+two:
+  recipient_number: MyString
+  send_code: MyString
+  identity_reference: MyString
+  identity_type: two
+  user: two
