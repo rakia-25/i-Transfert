@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_18_080807) do
-  create_table "transactions", force: :cascade do |t|
+ActiveRecord::Schema[7.1].define(version: 2025_06_19_090341) do
+  create_table "transferts", force: :cascade do |t|
     t.string "sender_name"
     t.string "sender_number"
     t.string "destination"
@@ -19,7 +19,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_18_080807) do
     t.string "recipient_name"
     t.string "recipient_number"
     t.string "transaction_type"
-    t.decimal "amount_recipient"
     t.string "reference"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

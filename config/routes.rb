@@ -10,11 +10,11 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  root "transactions#index"
-   resources :transactions do
+  root "transferts#index"
+   resources :transferts do
     collection do
-      get :envois, to: 'transactions#index', defaults: { type: 'envoi' }
-      get :retraits, to: 'transactions#index', defaults: { type: 'retrait' }
+      get :envois, to: 'transferts#index', defaults: { type: 'envoi' }
+      get :retraits, to: 'transferts#index', defaults: { type: 'retrait' }
     end
   end
 end

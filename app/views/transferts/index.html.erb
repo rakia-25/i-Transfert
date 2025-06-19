@@ -3,24 +3,18 @@
     <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
       <div class="flex justify-between items-center">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900">Transactions</h1>
+          <h1 class="text-3xl font-bold text-gray-900">Transferts</h1>
           <p class="text-gray-600 mt-2">Gérez vos envois et retraits d'argent</p>
         </div>
         <div class="flex space-x-3">
-          <%= link_to new_transaction_path(type: 'envoi'), 
+          <%= link_to new_transfert_path(type: 'envoi'), 
               class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center" do %>
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
             </svg>
             Nouvel Envoi
           <% end %>
-          <%= link_to new_transaction_path(type: 'retrait'), 
-              class: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center" do %>
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-            </svg>
-            Nouveau Retrait
-          <% end %>
+          
         </div>
       </div>
     </div>
@@ -28,22 +22,22 @@
     <!-- Filtres -->
     <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
       <div class="flex flex-wrap gap-4">
-        <%= link_to transactions_path, 
+        <%= link_to transferts_path, 
             class: "px-4 py-2 rounded-lg font-medium transition-colors #{params[:type].blank? ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" do %>
           Toutes
         <% end %>
-        <%= link_to transactions_path(type: 'envoi'), 
+        <%= link_to transferts_path(type: 'envoi'), 
             class: "px-4 py-2 rounded-lg font-medium transition-colors #{params[:type] == 'envoi' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" do %>
           Envois
         <% end %>
-        <%= link_to transactions_path(type: 'retrait'), 
+        <%= link_to transferts_path(type: 'retrait'), 
             class: "px-4 py-2 rounded-lg font-medium transition-colors #{params[:type] == 'retrait' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" do %>
           Retraits
         <% end %>
       </div>
     </div>
 
-    <!-- Liste des transactions -->
+    <!-- Liste des Transferts -->
     <div class="bg-white rounded-lg shadow-sm overflow-hidden">
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
@@ -58,15 +52,15 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <% @transactions.each do |transaction| %>
+            <% @transferts.each do |transfert| %>
               <tr class="hover:bg-gray-50">
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm font-medium text-gray-900">
-                    <%= transaction.reference %>
+                    <%= transfert.reference %>
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <% if transaction.envoi? %>
+                  <% if transfert.envoi? %>
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                       Envoi
                     </span>
@@ -77,46 +71,35 @@
                   <% end %>
                 </td>
                 <td class="px-6 py-4">
-                  <% if transaction.envoi? %>
+                  <% if transfert.envoi? %>
                     <div class="text-sm text-gray-900">
-                      <strong><%= transaction.sender_name %></strong> → <strong><%= transaction.recipient_name %></strong>
+                      <strong><%= transfert.sender_name %></strong> → <strong><%= transfert.recipient_name %></strong>
                     </div>
                     <div class="text-sm text-gray-500">
-                      <%= transaction.sender_number %> → <%= transaction.recipient_number %>
+                      <%= transfert.sender_number %> → <%= transfert.recipient_number %>
                     </div>
                     <div class="text-sm text-gray-500">
-                      Destination: <%= transaction.destination %>
+                      Destination: <%= transfert.destination %>
                     </div>
-                <% elsif transaction.retrait? %>
-                    <div class="text-sm text-gray-500">
-                        <%= transaction.recipient_name %>
-                    </div>
-                    <div class="text-sm text-gray-500">
-                      Destination: <%= transaction.destination %>
-                    </div>
-                  <% end %>
-                    
+                <% end %>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <% if transaction.amount%>
+                  <% if transfert.amount%>
                     <div class="text-sm font-medium text-gray-900">
-                      <%= number_to_currency(transaction.amount, unit: "FCFA ", precision: 0) %>
+                      <%= number_to_currency(transfert.amount, unit: "FCFA ", precision: 0) %>
                     </div>
-                  <% elsif transaction.amount_recipient%>
-                    <div class="text-sm font-medium text-gray-900">
-                      <%= number_to_currency(transaction.amount_recipient, unit: "FCFA ", precision: 0) %>
-                    </div>
+                  
                   <%else%>
                     <span class="text-gray-400">-</span>
                   <% end %>
                 </td>
               
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <%= transaction.created_at.strftime("%d/%m/%Y %H:%M") %>
+                  <%= transfert.created_at.strftime("%d/%m/%Y %H:%M") %>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <div class="flex space-x-2">
-                    <%= button_to "Supprimer", transaction_path(transaction), method: :delete, class: "text-red-600 hover:text-red-900", form: { data: { turbo_confirm: "Êtes-vous sûr de vouloir supprimer cette catégorie?" } }%>
+                    <%= button_to "Supprimer", transfert_path(transfert), method: :delete, class: "text-red-600 hover:text-red-900", form: { data: { turbo_confirm: "Êtes-vous sûr de vouloir supprimer cette catégorie?" } }%>
                   </div>
                 </td>
               </tr>
@@ -125,19 +108,19 @@
         </table>
       </div>
       
-      <% if @transactions.empty? %>
+      <% if @transferts.empty? %>
         <div class="text-center py-12">
           <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
           </svg>
-          <h3 class="mt-2 text-sm font-medium text-gray-900">Aucune transaction</h3>
+          <h3 class="mt-2 text-sm font-medium text-gray-900">Aucun transfert</h3>
           <p class="mt-1 text-sm text-gray-500">Commencez par créer votre première transaction.</p>
           <div class="mt-6 flex justify-center space-x-3">
-            <%= link_to new_transaction_path(type: 'envoi'), 
+            <%= link_to new_transfert_path(type: 'envoi'), 
                 class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors" do %>
               Nouvel Envoi
             <% end %>
-            <%= link_to new_transaction_path(type: 'retrait'), 
+            <%= link_to new_transfert_path(type: 'retrait'), 
                 class: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors" do %>
               Nouveau Retrait
             <% end %>
