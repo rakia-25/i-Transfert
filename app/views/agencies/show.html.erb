@@ -1,4 +1,5 @@
 <h1>Details de l'article</h1>
 Nom de l'agence: <%= @agency.name %> <br>
-Localisation: <%= @agency.location %> <br>
+<p><strong>Ville :</strong> <%= @agency.city.name %></p>
+<p><strong>Pays :</strong> <%= @agency.city.country.name %></p>
 <%= link_to "Retour Liste", agencies_path%>
