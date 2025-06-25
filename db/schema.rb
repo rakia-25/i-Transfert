@@ -21,6 +21,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_19_180941) do
     t.index ["city_id"], name: "index_agencies_on_city_id"
   end
 
+  create_table "transferts", force: :cascade do |t|
+    t.string "sender_name"
+    t.string "sender_number"
+    t.string "destination"
+    t.decimal "amount"
+    t.string "recipient_name"
+    t.string "recipient_number"
+    t.string "transaction_type"
+    t.string "reference"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
   create_table "cities", force: :cascade do |t|
     t.string "name"
     t.integer "country_id", null: false

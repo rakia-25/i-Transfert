@@ -1,0 +1,131 @@
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <div class="flex items-center">
+                <%= link_to transferts_path, class: "text-gray-400 hover:text-gray-600 mr-4" do %>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                <% end %>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">
+                        <% if @transaction_type == 'sending' %>
+                        Nouvel Envoi d'Argent
+                        <% else %>
+                        Nouveau Retrait d'Argent
+                        <% end %>
+                    </h1>
+                    <p class="text-gray-600 mt-1">
+                        <% if @transaction_type == 'sending' %>
+                        Remplissez les informations pour effectuer un envoi
+                        <% else %>
+                        Remplissez les informations pour effectuer un retrait
+                        <% end %>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulaire -->
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <%= form_with model: @transfert, local: true, class: "space-y-6" do |form| %>
+            <!-- Type de transfert (caché) -->
+            <%= form.hidden_field :transaction_type, value: @transaction_type %>
+
+            <!-- Affichage des erreurs -->
+            <% if @transfert.errors.any? %>
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div class="flex">
+                    <svg class="w-5 h-5 text-red-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">
+                            <%= pluralize(@transfert.errors.count, "erreur") %> détectée<%= "s" if @transfert.errors.count > 1 %> :
+                        </h3>
+                        <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                            <% @transfert.errors.full_messages.each do |message| %>
+                            <li><%= message %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <% end %>
+
+            <!-- Champs pour l'envoi -->
+            <% if @transaction_type == 'sending' %>
+            <!-- Informations de l'expéditeur -->
+            <div class="bg-blue-50 rounded-lg p-4">
+                <h3 class="text-lg font-medium text-blue-800 mb-4">Informations de l'expéditeur</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <%= form.label :sender_name, "Nom de l'expéditeur", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                        <%= form.text_field :sender_name, 
+                    class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500", 
+                    placeholder: "Nom complet" %>
+                    </div>
+                    <div>
+                        <%= form.label :sender_number, "Numéro de l'expéditeur", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                        <%= form.text_field :sender_number, 
+                    class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500", 
+                    placeholder: "Ex: +227 90 00 00 00" %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informations de la transfert -->
+            <div class="bg-gray-50 rounded-lg p-4">
+                <h3 class="text-lg font-medium text-gray-800 mb-4">Informations de la transfert</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <%= form.label :amount, "Montant (FCFA)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                        <%= form.number_field :amount, 
+                    class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500", 
+                    placeholder: "0", step: 0.01, min: 0 %>
+                    </div>
+                    <div>
+                        <%= form.label :destination, "Destination", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                        <%= form.text_field :destination, 
+                    class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500", 
+                    placeholder: "Ville de destination" %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informations du destinataire -->
+            <div class="bg-green-50 rounded-lg p-4">
+                <h3 class="text-lg font-medium text-green-800 mb-4">Informations du destinataire</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <%= form.label :recipient_name, "Nom du destinataire", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                        <%= form.text_field :recipient_name, 
+                    class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500", 
+                    placeholder: "Nom complet" %>
+                    </div>
+                    <div>
+                        <%= form.label :recipient_number, "Numéro du destinataire", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                        <%= form.text_field :recipient_number, 
+                    class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500", 
+                    placeholder: "Ex: +227 90 00 00 00" %>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- Champs pour le retrait -->
+            <% end %>
+            <!-- Boutons -->
+            <div class="flex justify-end space-x-4 pt-6 border-t">
+                <%= link_to transferts_path, 
+              class: "px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors" do %>
+                Annuler
+                <% end %>
+                <%= form.submit (@transfert.persisted? ? "Mettre à jour" : "Créer la transfert"), 
+              class: "px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors" %>
+            </div>
+            <% end %>
+        </div>
+        
+    </div>
+</div>
