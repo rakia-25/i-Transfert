@@ -24,8 +24,9 @@ class AgenciesController < ApplicationController
         end
     end
     def show 
+        @guichet = Guichet.new
+        @users=User.agent
         @agency = Agency.includes(city: :country).find(params[:id])
-
     end
 
     def edit
