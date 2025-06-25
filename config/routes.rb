@@ -12,7 +12,6 @@ Rails.application.routes.draw do
    resources :transferts do
     collection do
       get :sending, to: 'transferts#index', defaults: { type: 'sending' }
-      get :withdrawal, to: 'transferts#index', defaults: { type: 'withdrawal' }
     end
   end
 end

@@ -1,15 +1,11 @@
 class Transfert < ApplicationRecord
   before_create :generate_reference
-  TRANSACTION_TYPES = %w[sending withdrawal].freeze
   
-  validates :transaction_type, inclusion: { in: TRANSACTION_TYPES }
-  validates :sender_name, :sender_number, :recipient_number, :recipient_name, :destination, :amount, presence: true, if: :sending?
+  validates :sender_name, :sender_number, :recipient_number, :recipient_name, :destination, :amount, presence: true
 
   scope :sending, -> {where(transaction_type: 'sending')}
 
-  def sending?
-    transaction_type =='sending'
-  end
+ 
 
   private
 

@@ -4,7 +4,6 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><%= link_to "Accueil", root_path %></li>
-          <li class="breadcrumb-item active">Transaction #<%= @transaction.reference %></li>
         </ol>
       </nav>
     </div>
@@ -14,7 +13,6 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h1 class="h2 mb-1">Transaction #<%= @transaction.reference %></h1>
           <p class="text-muted mb-0">
             <span class="badge <%= @transaction.status_badge_class %> me-2">
               <%= @transaction.transaction_type.capitalize %>

@@ -60,7 +60,7 @@
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <% if transfert.sending? %>
+                  <% if transfert.transaction_type == 'sending' %>
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                       Envoi
                     </span>
@@ -71,7 +71,7 @@
                   <% end %>
                 </td>
                 <td class="px-6 py-4">
-                  <% if transfert.sending? %>
+                  <% if transfert.transaction_type == 'sending' %>
                     <div class="text-sm text-gray-900">
                       <strong><%= transfert.sender_name %></strong> → <strong><%= transfert.recipient_name %></strong>
                     </div>
@@ -101,6 +101,7 @@
                   <div class="flex space-x-2">
                     <%= button_to "Supprimer", transfert_path(transfert), method: :delete, class: "text-red-600 hover:text-red-900", form: { data: { turbo_confirm: "Êtes-vous sûr de vouloir supprimer cette catégorie?" } }%>
                   </div>
+                  
                 </td>
               </tr>
             <% end %>

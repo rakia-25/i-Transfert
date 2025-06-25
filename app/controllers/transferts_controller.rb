@@ -4,6 +4,10 @@ class TransfertsController < ApplicationController
     @transferts = @transferts.where(transaction_type: params[:type]) if params[:type].present?
   end
 
+  def show
+    @transaction = Transfert.find(params[:id])
+  end
+
   def new
     @transfert = Transfert.new
     @transaction_type = 'sending'
