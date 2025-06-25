@@ -4,9 +4,8 @@
   <ul>
   </ul>
   <li>
-    <strong><%= link_to agency.name, agency_path(agency) %></strong>
-    Location: <%=agency.location%>
+    <strong>Nom de l'agence: <%= link_to agency.name, agency_path(agency) %></strong>
+    <%= link_to "Modifier", edit_agency_path(agency)%>
+    <%= button_to "Delete", agency_path(agency), method: :delete%>
   </li>
-  <%= link_to "Modifier", edit_agency_path(agency)%>
-  <%= button_to "Delete", agency_path(agency), method: :delete%>
 <% end %>
