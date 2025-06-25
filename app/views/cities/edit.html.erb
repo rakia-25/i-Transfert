@@ -1,0 +1,12 @@
+<h1>Modifier la ville</h1>
+
+<%= form_with(model: [@country, @city]) do |f| %>
+  <div>
+    <%= f.label :name, "Nom de la ville" %>
+    <%= f.text_field :name %>
+  </div>
+
+  <%= f.submit "Mettre à jour" %>
+<% end %>
+
+<%= link_to "Retour", country_path(@country) %>

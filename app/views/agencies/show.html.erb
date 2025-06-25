@@ -1,5 +1,6 @@
 <h1>Details de l'agence</h1>
 Nom de l'agence: <%= @agency.name %> <br>
+
 Localisation: <%= @agency.location %> <br>
 <h1>Guichets</h1>
 <% if @agency.guichets.any? %>
@@ -38,4 +39,8 @@ Localisation: <%= @agency.location %> <br>
     <%= form.submit %>
   </div>
 <% end %>
+
+<p><strong>Ville :</strong> <%= @agency.city.name %></p>
+<p><strong>Pays :</strong> <%= @agency.city.country.name %></p>
+
 <%= link_to "Retour Liste", agencies_path%>

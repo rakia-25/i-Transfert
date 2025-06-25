@@ -1,0 +1,26 @@
+<h1>Liste des pays</h1>
+
+<%= link_to "Ajouter un pays", new_country_path %>
+<br><br><br>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @countries.each do |country| %>
+      <tr>
+        <td><%= country.name %></td>
+        <td>
+          <%= link_to "Afficher", country_path(country) %> |
+          <%= link_to "Modifier", edit_country_path(country) %> |
+          <%= link_to "Supprimer", country_path(country), method: :delete, data: { confirm: "Êtes-vous sûr ?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

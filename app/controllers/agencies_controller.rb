@@ -7,6 +7,12 @@ class AgenciesController < ApplicationController
 
     def new 
         @agency= Agency.new
+        @countries = Country.all
+        @cities = []
+        if params[:country_id].present?
+            @selected_country = Country.find(params[:country_id])
+            @cities = @selected_country.cities
+        end
     end
 
     def create
@@ -20,6 +26,7 @@ class AgenciesController < ApplicationController
     def show 
         @guichet = Guichet.new
         @users=User.agent
+        @agency = Agency.includes(city: :country).find(params[:id])
     end
 
     def edit
@@ -45,6 +52,6 @@ class AgenciesController < ApplicationController
 
     private
     def agency_params
-        params.require(:agency).permit(:name, :location)
+        params.require(:agency).permit(:name, :city_id)
     end
 end
