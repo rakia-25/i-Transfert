@@ -42,7 +42,7 @@
         </div>
         <div class="card-body">
           <div class="row">
-            <% if @transaction.envoi? %>
+            <% if @transaction.sending? %>
               <!-- Pour les envois -->
               <div class="col-md-6">
                 <h6 class="text-primary border-bottom pb-2 mb-3">Expéditeur</h6>
@@ -174,7 +174,7 @@
             <%= link_to "Modifier cette Transaction", edit_transaction_path(@transaction), 
                         class: "btn btn-primary" %>
             
-            <% if @transaction.envoi? %>
+            <% if @transaction.sending? %>
               <%= link_to "Vérifier le Destinataire", 
                           check_number_transactions_path(phone_number: @transaction.recipient_number), 
                           class: "btn btn-info" %>
@@ -204,7 +204,7 @@
           <h6 class="mb-0">Résumé Financier</h6>
         </div>
         <div class="card-body">
-          <% if @transaction.envoi? %>
+          <% if @transaction.sending? %>
             <div class="d-flex justify-content-between mb-2">
               <span>Montant envoyé:</span>
               <strong class="text-primary"><%= number_to_currency(@transaction.amount, unit: '', precision: 0) %> FCFA</strong>

@@ -6,7 +6,7 @@ class TransfertsController < ApplicationController
 
   def new
     @transfert = Transfert.new
-    @transaction_type = 'envoi'
+    @transaction_type = 'sending'
   end
 
   def create

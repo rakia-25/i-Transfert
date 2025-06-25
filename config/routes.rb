@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  get 'transactions/index'
-  get 'transactions/new'
-  get 'transactions/create'
+
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -13,8 +11,8 @@ Rails.application.routes.draw do
   root "transferts#index"
    resources :transferts do
     collection do
-      get :envois, to: 'transferts#index', defaults: { type: 'envoi' }
-      get :retraits, to: 'transferts#index', defaults: { type: 'retrait' }
+      get :sending, to: 'transferts#index', defaults: { type: 'sending' }
+      get :withdrawal, to: 'transferts#index', defaults: { type: 'withdrawal' }
     end
   end
 end
