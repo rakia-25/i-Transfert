@@ -1,0 +1,10 @@
+<h1><%= @country.name %></h1>
+<h2>Villes</h2>
+<%= link_to "Ajouter une ville", new_country_city_path(@country) %>
+<ul>
+  <% @cities.each do |city| %>
+    <li><%= city.name %></li>
+  <% end %>
+</ul>
+
+<%= link_to "Retour", countries_path %>

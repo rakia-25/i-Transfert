@@ -1,0 +1,22 @@
+<h1>Nouvelle Agence</h1>
+<!-- Formulaire pour choisir un pays -->
+<%= form_with url: new_agency_path, method: :get, local: true do |form| %>
+  <div>
+    <%= label_tag :country_id, "Sélectionner un pays" %>
+    <%= select_tag :country_id, options_from_collection_for_select(@countries, :id, :name, @selected_country&.id),
+          prompt: "Choisir un pays" %>
+    <%= submit_tag "Charger les villes" %>
+  </div>
+<% end %>
+<!-- Formulaire de création de l'agence -->
+<%= form_with model: @agency, local: true do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+    <%= form.label :city_id, "Ville" %>
+    <%= form.collection_select :city_id, @cities, :id, :name, prompt: "Choisir une ville" %>
+  </div>
+  <div>
+    <%= form.submit "Créer l'agence" %>
+  </div>
+<% end %>
