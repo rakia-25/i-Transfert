@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :agencies do
     resources :guichets
   end
-
+  resources :historicals
   # Defines the root path route ("/")
 
    resources :transferts do
