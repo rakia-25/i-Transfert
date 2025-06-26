@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  balance_before: 9.99
+  balance_after: 9.99
+  guichet: one
+  operation: one
+  operation_type: Operation
+
+two:
+  balance_before: 9.99
+  balance_after: 9.99
+  guichet: two
+  operation: two
+  operation_type: Operation

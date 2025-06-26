@@ -1,5 +1,7 @@
 class Transfert < ApplicationRecord
   before_create :generate_reference
+  has_one :historical, as: :operation
+
   
   validates :sender_name, :sender_number, :recipient_number, :recipient_name, :destination, :amount, presence: true
 
