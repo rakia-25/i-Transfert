@@ -1,5 +1,5 @@
 class AgencyPolicy < ApplicationPolicy
     def index?
-        false
+        true
     end
 end

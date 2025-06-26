@@ -4,8 +4,6 @@ class AgenciesController < ApplicationController
     def index
         @agencies=Agency.all
         authorize @agencies
-        raise Pundit::NotAuthorizedError, "not allowed"
-
     end
 
     def new 
